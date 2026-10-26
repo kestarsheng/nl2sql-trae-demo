@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": null,
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .codex/hooks/guard.py --hook PreToolUse",
+            "timeout": 20,
+            "statusMessage": "guard: 检查高危命令与受保护文件"
+          }
+        ]
+      }
+    ]
+  }
+}
