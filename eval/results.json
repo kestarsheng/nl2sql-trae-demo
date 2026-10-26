@@ -1,0 +1,1259 @@
+{
+  "run_config": {
+    "timestamp": "2026-10-26T21:34:57",
+    "llm_enabled": true,
+    "proxy_env": {
+      "HTTP_PROXY": "http://127.0.0.1:7897",
+      "HTTPS_PROXY": "http://127.0.0.1:7897"
+    },
+    "gold_lines": 50
+  },
+  "dataset": {
+    "path": "eval/gold_set.json",
+    "count": 50,
+    "categories": {
+      "single_table": 20,
+      "multi_table_join": 15,
+      "aggregation_grouping": 10,
+      "time_condition": 5
+    },
+    "gold_sql_validation": {
+      "checked": 50,
+      "passed": 50,
+      "proof": "Every gold SELECT parsed and executed against the read-only seed database (eval/verify_gold.py)."
+    }
+  },
+  "baseline": {
+    "count": 50,
+    "syntax_pass_rate": 1.0,
+    "execution_success_rate": 1.0,
+    "result_correct_rate": 1.0,
+    "source_counts": {
+      "llm": 50
+    },
+    "elapsed_s": 280.0,
+    "cases": [
+      {
+        "question": "查询所有区域的区域编号和区域名称",
+        "sql": "SELECT region_id, region_name FROM dim_region;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.49,
+        "error": ""
+      },
+      {
+        "question": "查询所有产品的产品编号、产品名称和品类",
+        "sql": "SELECT product_id, product_name, category FROM dim_product;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.15,
+        "error": ""
+      },
+      {
+        "question": "查询所有门店的门店编号、门店名称和所在城市",
+        "sql": "SELECT store_id, store_name, city FROM dim_store;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.85,
+        "error": ""
+      },
+      {
+        "question": "查询所有会员客户的姓名和会员等级",
+        "sql": "SELECT customer_name, level FROM dim_customer;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 9.19,
+        "error": ""
+      },
+      {
+        "question": "统计销售记录总共有多少条",
+        "sql": "SELECT COUNT(*) AS 销售记录总数 FROM fact_sales;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.58,
+        "error": ""
+      },
+      {
+        "question": "统计退款记录总共有多少条",
+        "sql": "SELECT COUNT(*) AS 退款记录总数 FROM fact_refund;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 2.83,
+        "error": ""
+      },
+      {
+        "question": "单笔销售金额最高的订单编号和金额是多少",
+        "sql": "SELECT sale_id AS 订单编号, amount AS 销售金额 FROM fact_sales ORDER BY amount DESC LIMIT 1;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.11,
+        "error": ""
+      },
+      {
+        "question": "查询单笔销量大于等于 30 件的销售记录的订单编号、日期和销量",
+        "sql": "SELECT sale_id, sale_date, quantity FROM fact_sales WHERE quantity >= 30;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.25,
+        "error": ""
+      },
+      {
+        "question": "统计销售金额低于 1000 元的销售记录有多少条",
+        "sql": "SELECT COUNT(*) AS 记录数 FROM fact_sales WHERE amount < 1000;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.62,
+        "error": ""
+      },
+      {
+        "question": "查询最高的单笔退款金额",
+        "sql": "SELECT MAX(refund_amount) AS 最高单笔退款金额 FROM fact_refund;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.17,
+        "error": ""
+      },
+      {
+        "question": "查询所有退款单的退款单号、退款原因和退款金额",
+        "sql": "SELECT refund_id, reason, refund_amount FROM fact_refund",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.71,
+        "error": ""
+      },
+      {
+        "question": "查询退款原因中包含质量的退款单号、退款原因和退款金额",
+        "sql": "SELECT refund_id, reason, refund_amount FROM fact_refund WHERE reason LIKE '%质量%'",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.15,
+        "error": ""
+      },
+      {
+        "question": "有哪些不同的会员等级",
+        "sql": "SELECT DISTINCT level FROM dim_customer;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.07,
+        "error": ""
+      },
+      {
+        "question": "有哪些不同的产品品类",
+        "sql": "SELECT DISTINCT category FROM dim_product;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 2.96,
+        "error": ""
+      },
+      {
+        "question": "门店覆盖了哪些不同的城市",
+        "sql": "SELECT DISTINCT city FROM dim_store",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 2.92,
+        "error": ""
+      },
+      {
+        "question": "华南区的区域编号是多少",
+        "sql": "SELECT region_id FROM dim_region WHERE region_name = '华南';",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.94,
+        "error": ""
+      },
+      {
+        "question": "格力空调的产品编号是多少",
+        "sql": "SELECT product_id FROM dim_product WHERE product_name = '格力空调'",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.28,
+        "error": ""
+      },
+      {
+        "question": "销售表中最小的单笔销量是多少",
+        "sql": "SELECT MIN(quantity) AS 最小单笔销量 FROM fact_sales",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.71,
+        "error": ""
+      },
+      {
+        "question": "统计销售记录中出现过多少个不同的区域编号",
+        "sql": "SELECT COUNT(DISTINCT region_id) AS 区域数量 FROM fact_sales",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.39,
+        "error": ""
+      },
+      {
+        "question": "退款原因为七天无理由的退款单有多少条",
+        "sql": "SELECT COUNT(refund_id) AS 退款单数量 FROM fact_refund WHERE reason = '七天无理由';",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.02,
+        "error": ""
+      },
+      {
+        "question": "华南地区每个产品的销售总额",
+        "sql": "SELECT T3.product_name, SUM(T1.amount) AS 销售总额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '华南'\nGROUP BY T3.product_id, T3.product_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 6.0,
+        "error": ""
+      },
+      {
+        "question": "各区域各品类的销售总额",
+        "sql": "SELECT T2.region_name, T3.category, SUM(T1.amount) AS 销售总额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nGROUP BY T2.region_name, T3.category;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.83,
+        "error": ""
+      },
+      {
+        "question": "每个品类有多少笔销售订单",
+        "sql": "SELECT T2.category AS 品类, COUNT(T1.sale_id) AS 销售订单数\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.category",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 6.82,
+        "error": ""
+      },
+      {
+        "question": "华东地区每个产品的总销量",
+        "sql": "SELECT T3.product_name, SUM(T1.quantity) AS 总销量\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '华东'\nGROUP BY T3.product_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.77,
+        "error": ""
+      },
+      {
+        "question": "手机品类在各个区域的销售总额",
+        "sql": "SELECT T3.region_name, SUM(T1.amount) AS 销售总额\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nJOIN dim_region AS T3 ON T1.region_id = T3.region_id\nWHERE T2.category = '手机'\nGROUP BY T3.region_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 7.1,
+        "error": ""
+      },
+      {
+        "question": "华北地区家电品类的总销量是多少",
+        "sql": "SELECT SUM(fact_sales.quantity) AS 总销量\nFROM fact_sales\nJOIN dim_region ON fact_sales.region_id = dim_region.region_id\nJOIN dim_product ON fact_sales.product_id = dim_product.product_id\nWHERE dim_region.region_name = '华北'\n  AND dim_product.category = '家电';",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 8.32,
+        "error": ""
+      },
+      {
+        "question": "华中地区销售额最高的五个产品及其销售额",
+        "sql": "SELECT T3.product_name, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '华中'\nGROUP BY T3.product_id, T3.product_name\nORDER BY 销售额 DESC\nLIMIT 5;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 7.66,
+        "error": ""
+      },
+      {
+        "question": "电脑品类在各区域的订单数量",
+        "sql": "SELECT T3.region_name, COUNT(T1.sale_id) AS 订单数量 FROM fact_sales AS T1 JOIN dim_product AS T2 ON T1.product_id = T2.product_id JOIN dim_region AS T3 ON T1.region_id = T3.region_id WHERE T2.category = '电脑' GROUP BY T3.region_name",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 19.37,
+        "error": ""
+      },
+      {
+        "question": "西南地区每个品类的销售总额",
+        "sql": "SELECT T3.category AS 品类, SUM(T2.amount) AS 销售总额 FROM fact_sales AS T2 JOIN dim_region AS T1 ON T2.region_id = T1.region_id JOIN dim_product AS T3 ON T2.product_id = T3.product_id WHERE T1.region_name LIKE '西南%' GROUP BY T3.category",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 13.14,
+        "error": ""
+      },
+      {
+        "question": "每个产品的平均单笔销售金额",
+        "sql": "SELECT T2.product_name, AVG(T1.amount) AS 平均单笔销售金额\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.product_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.58,
+        "error": ""
+      },
+      {
+        "question": "家居品类每个产品的销售总额",
+        "sql": "SELECT T2.product_name, SUM(T1.amount) AS 销售总额\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nWHERE T2.category = '家居'\nGROUP BY T2.product_id, T2.product_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.99,
+        "error": ""
+      },
+      {
+        "question": "每个区域卖过多少种不同的产品",
+        "sql": "SELECT T2.region_name, COUNT(DISTINCT T1.product_id) AS 产品种类数\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nGROUP BY T2.region_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.92,
+        "error": ""
+      },
+      {
+        "question": "每个区域的总销售数量",
+        "sql": "SELECT T2.region_name, SUM(T1.quantity) AS 总销售数量\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nGROUP BY T2.region_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.9,
+        "error": ""
+      },
+      {
+        "question": "各区域手机的总销量",
+        "sql": "SELECT T2.region_name, SUM(T1.quantity) AS 总销量 FROM fact_sales AS T1 JOIN dim_region AS T2 ON T1.region_id = T2.region_id JOIN dim_product AS T3 ON T1.product_id = T3.product_id WHERE T3.category = '手机' GROUP BY T2.region_name",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 7.89,
+        "error": ""
+      },
+      {
+        "question": "小米 14 在华南地区的销售总额",
+        "sql": "SELECT SUM(fact_sales.amount) AS 销售总额\nFROM fact_sales\nJOIN dim_product ON fact_sales.product_id = dim_product.product_id\nJOIN dim_region ON fact_sales.region_id = dim_region.region_id\nWHERE dim_product.product_name = '小米 14'\n  AND dim_region.region_name = '华南';",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 8.76,
+        "error": ""
+      },
+      {
+        "question": "按区域汇总销售总金额",
+        "sql": "SELECT dim_region.region_name, SUM(fact_sales.amount) AS 销售总金额 FROM fact_sales JOIN dim_region ON fact_sales.region_id = dim_region.region_id GROUP BY dim_region.region_name",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.7,
+        "error": ""
+      },
+      {
+        "question": "按产品汇总销售总数量",
+        "sql": "SELECT T2.product_name AS 产品名称, SUM(T1.quantity) AS 销售总数量\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.product_name",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.19,
+        "error": ""
+      },
+      {
+        "question": "按退款原因汇总退款总金额",
+        "sql": "SELECT reason, SUM(refund_amount) AS 退款总金额\nFROM fact_refund\nGROUP BY reason",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.39,
+        "error": ""
+      },
+      {
+        "question": "每个会员等级各有多少位客户",
+        "sql": "SELECT level AS 会员等级, COUNT(customer_id) AS 客户数 FROM dim_customer GROUP BY level",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.78,
+        "error": ""
+      },
+      {
+        "question": "按区域计算平均单笔销售金额",
+        "sql": "SELECT T2.region_name, AVG(T1.amount) AS 平均单笔销售金额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nGROUP BY T2.region_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.2,
+        "error": ""
+      },
+      {
+        "question": "按品类计算平均单笔销量",
+        "sql": "SELECT T2.category AS 品类, AVG(T1.quantity) AS 平均单笔销量\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.category",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.83,
+        "error": ""
+      },
+      {
+        "question": "按产品统计最高单笔销售金额",
+        "sql": "SELECT T2.product_name, MAX(T1.amount) AS 最高单笔销售金额\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T1.product_id, T2.product_name",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 7.26,
+        "error": ""
+      },
+      {
+        "question": "按区域统计最低单笔销售金额",
+        "sql": "SELECT T2.region_name, MIN(T1.amount) AS 最低单笔销售金额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nGROUP BY T2.region_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 6.12,
+        "error": ""
+      },
+      {
+        "question": "每个城市各有几家门店",
+        "sql": "SELECT city, COUNT(store_id) AS 门店数量 FROM dim_store GROUP BY city;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.56,
+        "error": ""
+      },
+      {
+        "question": "按品类汇总销售总金额",
+        "sql": "SELECT T2.category AS 品类, SUM(T1.amount) AS 销售总金额 FROM fact_sales AS T1 JOIN dim_product AS T2 ON T1.product_id = T2.product_id GROUP BY T2.category",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.95,
+        "error": ""
+      },
+      {
+        "question": "最近 30 天的销售总金额",
+        "sql": "SELECT SUM(amount) AS 销售总金额 FROM fact_sales WHERE sale_date >= DATE('now', '-30 days');",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 15.66,
+        "error": ""
+      },
+      {
+        "question": "今年的销售订单总数",
+        "sql": "SELECT COUNT(sale_id) AS 订单总数 FROM fact_sales WHERE strftime('%Y', sale_date) = strftime('%Y', 'now')",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.28,
+        "error": ""
+      },
+      {
+        "question": "上个月的销售总金额",
+        "sql": "SELECT SUM(amount) AS 销售总金额 FROM fact_sales WHERE sale_date >= date('now', 'start of month', '-1 month') AND sale_date < date('now', 'start of month')",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.83,
+        "error": ""
+      },
+      {
+        "question": "上个月的退款总金额",
+        "sql": "SELECT SUM(refund_amount) AS 退款总金额\nFROM fact_refund\nWHERE refund_date >= date('now', 'start of month', '-1 month')\n  AND refund_date < date('now', 'start of month');",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.57,
+        "error": ""
+      },
+      {
+        "question": "2026 年 9 月的销售总金额",
+        "sql": "SELECT SUM(amount) AS 销售总金额 FROM fact_sales WHERE sale_date >= '2026-09-01' AND sale_date < '2026-10-01'",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.27,
+        "error": ""
+      }
+    ]
+  },
+  "self_healing": {
+    "count": 50,
+    "syntax_pass_rate": 1.0,
+    "execution_success_rate": 1.0,
+    "result_correct_rate": 1.0,
+    "source_counts": {
+      "llm": 50
+    },
+    "elapsed_s": 285.7,
+    "cases": [
+      {
+        "question": "查询所有区域的区域编号和区域名称",
+        "sql": "SELECT region_id, region_name FROM dim_region;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 2.91,
+        "error": ""
+      },
+      {
+        "question": "查询所有产品的产品编号、产品名称和品类",
+        "sql": "SELECT product_id, product_name, category FROM dim_product;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.8,
+        "error": ""
+      },
+      {
+        "question": "查询所有门店的门店编号、门店名称和所在城市",
+        "sql": "SELECT store_id AS 门店编号, store_name AS 门店名称, city AS 所在城市 FROM dim_store;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.7,
+        "error": ""
+      },
+      {
+        "question": "查询所有会员客户的姓名和会员等级",
+        "sql": "SELECT customer_name, level FROM dim_customer;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.24,
+        "error": ""
+      },
+      {
+        "question": "统计销售记录总共有多少条",
+        "sql": "SELECT COUNT(*) AS 销售记录总数 FROM fact_sales;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.29,
+        "error": ""
+      },
+      {
+        "question": "统计退款记录总共有多少条",
+        "sql": "SELECT COUNT(*) AS 退款记录数 FROM fact_refund;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 2.9,
+        "error": ""
+      },
+      {
+        "question": "单笔销售金额最高的订单编号和金额是多少",
+        "sql": "SELECT sale_id, amount FROM fact_sales ORDER BY amount DESC LIMIT 1",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.87,
+        "error": ""
+      },
+      {
+        "question": "查询单笔销量大于等于 30 件的销售记录的订单编号、日期和销量",
+        "sql": "SELECT sale_id AS 订单编号, sale_date AS 日期, quantity AS 销量 FROM fact_sales WHERE quantity >= 30;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.98,
+        "error": ""
+      },
+      {
+        "question": "统计销售金额低于 1000 元的销售记录有多少条",
+        "sql": "SELECT COUNT(*) AS 记录数 FROM fact_sales WHERE amount < 1000;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.5,
+        "error": ""
+      },
+      {
+        "question": "查询最高的单笔退款金额",
+        "sql": "SELECT MAX(refund_amount) AS 最高单笔退款金额 FROM fact_refund",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.45,
+        "error": ""
+      },
+      {
+        "question": "查询所有退款单的退款单号、退款原因和退款金额",
+        "sql": "SELECT refund_id AS 退款单号, reason AS 退款原因, refund_amount AS 退款金额 FROM fact_refund;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.87,
+        "error": ""
+      },
+      {
+        "question": "查询退款原因中包含质量的退款单号、退款原因和退款金额",
+        "sql": "SELECT refund_id, reason, refund_amount FROM fact_refund WHERE reason LIKE '%质量%'",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.43,
+        "error": ""
+      },
+      {
+        "question": "有哪些不同的会员等级",
+        "sql": "SELECT DISTINCT level FROM dim_customer;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.52,
+        "error": ""
+      },
+      {
+        "question": "有哪些不同的产品品类",
+        "sql": "SELECT DISTINCT category FROM dim_product;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.28,
+        "error": ""
+      },
+      {
+        "question": "门店覆盖了哪些不同的城市",
+        "sql": "SELECT DISTINCT city FROM dim_store;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.36,
+        "error": ""
+      },
+      {
+        "question": "华南区的区域编号是多少",
+        "sql": "SELECT region_id FROM dim_region WHERE region_name = '华南';",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.42,
+        "error": ""
+      },
+      {
+        "question": "格力空调的产品编号是多少",
+        "sql": "SELECT product_id FROM dim_product WHERE product_name = '格力空调';",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 7.57,
+        "error": ""
+      },
+      {
+        "question": "销售表中最小的单笔销量是多少",
+        "sql": "SELECT MIN(quantity) AS 最小单笔销量 FROM fact_sales",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 6.0,
+        "error": ""
+      },
+      {
+        "question": "统计销售记录中出现过多少个不同的区域编号",
+        "sql": "SELECT COUNT(DISTINCT region_id) AS 区域数量 FROM fact_sales;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 6.12,
+        "error": ""
+      },
+      {
+        "question": "退款原因为七天无理由的退款单有多少条",
+        "sql": "SELECT COUNT(refund_id) AS 退款单数量 FROM fact_refund WHERE reason = '七天无理由'",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 7.03,
+        "error": ""
+      },
+      {
+        "question": "华南地区每个产品的销售总额",
+        "sql": "SELECT T3.product_name AS 产品名称, SUM(T1.amount) AS 销售总额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '华南'\nGROUP BY T3.product_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 6.31,
+        "error": ""
+      },
+      {
+        "question": "各区域各品类的销售总额",
+        "sql": "SELECT T2.region_name AS 区域, T3.category AS 品类, SUM(T1.amount) AS 销售总额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nGROUP BY T2.region_name, T3.category;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 6.26,
+        "error": ""
+      },
+      {
+        "question": "每个品类有多少笔销售订单",
+        "sql": "SELECT T2.category, COUNT(DISTINCT T1.sale_id) AS 销售订单数\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.category",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 11.94,
+        "error": ""
+      },
+      {
+        "question": "华东地区每个产品的总销量",
+        "sql": "SELECT T3.product_name, SUM(T1.quantity) AS 总销量 FROM fact_sales AS T1 JOIN dim_region AS T2 ON T1.region_id = T2.region_id JOIN dim_product AS T3 ON T1.product_id = T3.product_id WHERE T2.region_name = '华东' GROUP BY T3.product_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 7.43,
+        "error": ""
+      },
+      {
+        "question": "手机品类在各个区域的销售总额",
+        "sql": "SELECT dim_region.region_name, SUM(fact_sales.amount) AS 销售总额\nFROM fact_sales\nJOIN dim_product ON fact_sales.product_id = dim_product.product_id\nJOIN dim_region ON fact_sales.region_id = dim_region.region_id\nWHERE dim_product.category = '手机'\nGROUP BY dim_region.region_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 6.13,
+        "error": ""
+      },
+      {
+        "question": "华北地区家电品类的总销量是多少",
+        "sql": "SELECT SUM(T1.quantity) AS 总销量\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '华北' AND T3.category = '家电';",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.46,
+        "error": ""
+      },
+      {
+        "question": "华中地区销售额最高的五个产品及其销售额",
+        "sql": "SELECT T3.product_name AS 产品名称, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '华中'\nGROUP BY T3.product_name\nORDER BY 销售额 DESC\nLIMIT 5;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.73,
+        "error": ""
+      },
+      {
+        "question": "电脑品类在各区域的订单数量",
+        "sql": "SELECT T3.region_name AS 区域, COUNT(T1.sale_id) AS 订单数量\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nJOIN dim_region AS T3 ON T1.region_id = T3.region_id\nWHERE T2.category = '电脑'\nGROUP BY T3.region_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 8.89,
+        "error": ""
+      },
+      {
+        "question": "西南地区每个品类的销售总额",
+        "sql": "SELECT T3.category AS 品类, SUM(T1.amount) AS 销售总额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name LIKE '%西南%'\nGROUP BY T3.category;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 8.37,
+        "error": ""
+      },
+      {
+        "question": "每个产品的平均单笔销售金额",
+        "sql": "SELECT T2.product_name, AVG(T1.amount) AS 平均单笔销售金额 FROM fact_sales AS T1 JOIN dim_product AS T2 ON T1.product_id = T2.product_id GROUP BY T2.product_name",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.75,
+        "error": ""
+      },
+      {
+        "question": "家居品类每个产品的销售总额",
+        "sql": "SELECT T2.product_name, SUM(T1.amount) AS 销售总额\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nWHERE T2.category = '家居'\nGROUP BY T2.product_id, T2.product_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 6.83,
+        "error": ""
+      },
+      {
+        "question": "每个区域卖过多少种不同的产品",
+        "sql": "SELECT T2.region_name, COUNT(DISTINCT T1.product_id) AS 产品种类数\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nGROUP BY T2.region_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 6.35,
+        "error": ""
+      },
+      {
+        "question": "每个区域的总销售数量",
+        "sql": "SELECT T2.region_name, SUM(T1.quantity) AS 总销售数量 FROM fact_sales AS T1 JOIN dim_region AS T2 ON T1.region_id = T2.region_id GROUP BY T2.region_name",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.75,
+        "error": ""
+      },
+      {
+        "question": "各区域手机的总销量",
+        "sql": "SELECT r.region_name AS 区域, SUM(f.quantity) AS 总销量\nFROM fact_sales f\nJOIN dim_region r ON f.region_id = r.region_id\nJOIN dim_product p ON f.product_id = p.product_id\nWHERE p.category = '手机'\nGROUP BY r.region_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 7.91,
+        "error": ""
+      },
+      {
+        "question": "小米 14 在华南地区的销售总额",
+        "sql": "SELECT SUM(fact_sales.amount) AS 销售总额\nFROM fact_sales\nJOIN dim_region ON fact_sales.region_id = dim_region.region_id\nJOIN dim_product ON fact_sales.product_id = dim_product.product_id\nWHERE dim_region.region_name = '华南'\n  AND dim_product.product_name = '小米 14';",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 12.37,
+        "error": ""
+      },
+      {
+        "question": "按区域汇总销售总金额",
+        "sql": "SELECT T2.region_name AS 区域, SUM(T1.amount) AS 销售总金额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nGROUP BY T2.region_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 6.1,
+        "error": ""
+      },
+      {
+        "question": "按产品汇总销售总数量",
+        "sql": "SELECT T2.product_name, SUM(T1.quantity) AS total_quantity FROM fact_sales AS T1 JOIN dim_product AS T2 ON T1.product_id = T2.product_id GROUP BY T2.product_name",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.78,
+        "error": ""
+      },
+      {
+        "question": "按退款原因汇总退款总金额",
+        "sql": "SELECT reason AS 退款原因, SUM(refund_amount) AS 退款总金额 FROM fact_refund GROUP BY reason;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.63,
+        "error": ""
+      },
+      {
+        "question": "每个会员等级各有多少位客户",
+        "sql": "SELECT level AS 会员等级, COUNT(customer_id) AS 客户数 FROM dim_customer GROUP BY level",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.79,
+        "error": ""
+      },
+      {
+        "question": "按区域计算平均单笔销售金额",
+        "sql": "SELECT T2.region_name, AVG(T1.amount) AS 平均单笔销售金额 FROM fact_sales AS T1 JOIN dim_region AS T2 ON T1.region_id = T2.region_id GROUP BY T2.region_name",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 7.22,
+        "error": ""
+      },
+      {
+        "question": "按品类计算平均单笔销量",
+        "sql": "SELECT T2.category AS 品类, AVG(T1.quantity) AS 平均单笔销量\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.category;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.75,
+        "error": ""
+      },
+      {
+        "question": "按产品统计最高单笔销售金额",
+        "sql": "SELECT T2.product_name AS 产品名称, MAX(T1.amount) AS 最高单笔销售金额\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.product_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 10.64,
+        "error": ""
+      },
+      {
+        "question": "按区域统计最低单笔销售金额",
+        "sql": "SELECT T2.region_name AS 区域, MIN(T1.amount) AS 最低单笔销售金额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nGROUP BY T2.region_name;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 7.37,
+        "error": ""
+      },
+      {
+        "question": "每个城市各有几家门店",
+        "sql": "SELECT city, COUNT(store_id) AS 门店数量 FROM dim_store GROUP BY city;",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 3.02,
+        "error": ""
+      },
+      {
+        "question": "按品类汇总销售总金额",
+        "sql": "SELECT T2.category, SUM(T1.amount) AS 销售总金额 FROM fact_sales AS T1 JOIN dim_product AS T2 ON T1.product_id = T2.product_id GROUP BY T2.category",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.7,
+        "error": ""
+      },
+      {
+        "question": "最近 30 天的销售总金额",
+        "sql": "SELECT SUM(amount) AS 销售总金额\nFROM fact_sales\nWHERE sale_date >= DATE('now', '-30 days');",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 5.77,
+        "error": ""
+      },
+      {
+        "question": "今年的销售订单总数",
+        "sql": "SELECT COUNT(sale_id) AS 订单总数 FROM fact_sales WHERE sale_date >= date('now', 'start of year') AND sale_date < date('now', 'start of year', '+1 year');",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 6.24,
+        "error": ""
+      },
+      {
+        "question": "上个月的销售总金额",
+        "sql": "SELECT SUM(amount) AS 销售总金额 FROM fact_sales WHERE sale_date >= date('now', 'start of month', '-1 month') AND sale_date < date('now', 'start of month');",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 7.06,
+        "error": ""
+      },
+      {
+        "question": "上个月的退款总金额",
+        "sql": "SELECT SUM(refund_amount) AS 退款总金额 FROM fact_refund WHERE refund_date >= date('now', 'start of month', '-1 month') AND refund_date < date('now', 'start of month');",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 7.15,
+        "error": ""
+      },
+      {
+        "question": "2026 年 9 月的销售总金额",
+        "sql": "SELECT SUM(amount) AS 销售总金额 FROM fact_sales WHERE sale_date >= '2026-09-01' AND sale_date < '2026-10-01'",
+        "source": "llm",
+        "retries": 1,
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "latency_s": 4.8,
+        "error": ""
+      }
+    ]
+  },
+  "token_comparison": {
+    "method": "tiktoken cl100k_base on injected schema text; excludes fixed prompt and question",
+    "sample_count": 20,
+    "full_schema_average": 391.0,
+    "top5_average": 319.5,
+    "reduction_percent": 18.286445012787723,
+    "samples": [
+      {
+        "question": "查询所有区域的区域编号和区域名称",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询所有产品的产品编号、产品名称和品类",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询所有门店的门店编号、门店名称和所在城市",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询所有会员客户的姓名和会员等级",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "统计销售记录总共有多少条",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "统计退款记录总共有多少条",
+        "full_schema_tokens": 391,
+        "top5_tokens": 339
+      },
+      {
+        "question": "单笔销售金额最高的订单编号和金额是多少",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询单笔销量大于等于 30 件的销售记录的订单编号、日期和销量",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "统计销售金额低于 1000 元的销售记录有多少条",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询最高的单笔退款金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 339
+      },
+      {
+        "question": "查询所有退款单的退款单号、退款原因和退款金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 339
+      },
+      {
+        "question": "查询退款原因中包含质量的退款单号、退款原因和退款金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 339
+      },
+      {
+        "question": "有哪些不同的会员等级",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "有哪些不同的产品品类",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "门店覆盖了哪些不同的城市",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "华南区的区域编号是多少",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "格力空调的产品编号是多少",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "销售表中最小的单笔销量是多少",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "统计销售记录中出现过多少个不同的区域编号",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "退款原因为七天无理由的退款单有多少条",
+        "full_schema_tokens": 391,
+        "top5_tokens": 339
+      }
+    ]
+  }
+}

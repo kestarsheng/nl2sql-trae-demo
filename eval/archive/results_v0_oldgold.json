@@ -1,0 +1,937 @@
+{
+  "dataset": {
+    "path": "eval/gold_set.json",
+    "count": 50,
+    "categories": {
+      "single_table": 20,
+      "multi_table_join": 15,
+      "aggregation_grouping": 10,
+      "time_condition": 5
+    }
+  },
+  "baseline": {
+    "count": 50,
+    "syntax_pass_rate": 1.0,
+    "execution_success_rate": 1.0,
+    "result_correct_rate": 0.58,
+    "cases": [
+      {
+        "question": "查询销售订单编号、日期和金额",
+        "sql": "SELECT sale_id AS 销售订单编号, sale_date AS 日期, amount AS 金额 FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售数量最多的订单数量",
+        "sql": "SELECT MAX(quantity) AS 销售数量 FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售金额最高的订单金额",
+        "sql": "SELECT MAX(amount) AS 最高订单金额 FROM fact_sales",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款金额最高的一笔",
+        "sql": "SELECT * FROM fact_refund ORDER BY refund_amount DESC LIMIT 1;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询所有销售日期",
+        "sql": "SELECT sale_date FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款原因和退款金额",
+        "sql": "SELECT reason, refund_amount FROM fact_refund;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售订单数量字段",
+        "sql": "SELECT quantity FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款记录编号和原因",
+        "sql": "SELECT refund_id, reason FROM fact_refund",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售金额字段",
+        "sql": "SELECT amount FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售数量字段",
+        "sql": "SELECT quantity AS 销售数量 FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款日期",
+        "sql": "SELECT refund_date FROM fact_refund;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款原因",
+        "sql": "SELECT reason FROM fact_refund",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售日期和金额",
+        "sql": "SELECT sale_date, amount FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款订单编号",
+        "sql": "SELECT DISTINCT order_id FROM fact_refund;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售订单编号",
+        "sql": "SELECT sale_id FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款金额字段",
+        "sql": "SELECT refund_amount FROM fact_refund;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售事实记录",
+        "sql": "SELECT * FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款事实记录",
+        "sql": "SELECT * FROM fact_refund;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售日期在库中的记录",
+        "sql": "SELECT * FROM fact_sales WHERE sale_date IS NOT NULL AND sale_date <> '';",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款日期在库中的记录",
+        "sql": "SELECT * FROM fact_refund WHERE refund_date IS NOT NULL;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "华南各产品销售额",
+        "sql": "SELECT T3.product_name, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '华南'\nGROUP BY T3.product_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各区域各品类销售额",
+        "sql": "SELECT dim_region.region_name AS 区域, dim_product.category AS 品类, SUM(fact_sales.amount) AS 销售额\nFROM fact_sales\nJOIN dim_region ON fact_sales.region_id = dim_region.region_id\nJOIN dim_product ON fact_sales.product_id = dim_product.product_id\nGROUP BY dim_region.region_name, dim_product.category;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各品类订单数",
+        "sql": "SELECT T2.category AS 品类, COUNT(T1.sale_id) AS 订单数\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.category;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "华东各产品销量",
+        "sql": "SELECT T3.product_name, SUM(T1.quantity) AS 销量\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '华东'\nGROUP BY T3.product_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各区域手机销售额",
+        "sql": "SELECT T2.region_name, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T3.category = '手机'\nGROUP BY T2.region_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各产品平均销售金额",
+        "sql": "SELECT T2.product_name, AVG(T1.amount) AS 平均销售金额\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.product_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "华北家电销量",
+        "sql": "SELECT SUM(fact_sales.quantity) AS 销量\nFROM fact_sales\nJOIN dim_region ON fact_sales.region_id = dim_region.region_id\nJOIN dim_product ON fact_sales.product_id = dim_product.product_id\nWHERE dim_region.region_name = '华北'\n  AND dim_product.category = '家电';",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各区域电脑订单数",
+        "sql": "SELECT T2.region_name, COUNT(T1.sale_id) AS 订单数 FROM fact_sales AS T1 JOIN dim_region AS T2 ON T1.region_id = T2.region_id JOIN dim_product AS T3 ON T1.product_id = T3.product_id WHERE T3.category = '电脑' GROUP BY T2.region_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "西南区各品类销售额",
+        "sql": "SELECT T3.category AS 品类, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '西南'\nGROUP BY T3.category;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "华中区产品销售额前5",
+        "sql": "SELECT T3.product_name, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '华中'\nGROUP BY T3.product_id, T3.product_name\nORDER BY 销售额 DESC\nLIMIT 5;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各区域各产品销售数量",
+        "sql": "SELECT T2.region_name, T3.product_name, SUM(T1.quantity) AS 销售数量\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nGROUP BY T2.region_name, T3.product_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各区域销售额汇总",
+        "sql": "SELECT T2.region_name, SUM(T1.amount) AS 销售额 FROM fact_sales AS T1 JOIN dim_region AS T2 ON T1.region_id = T2.region_id GROUP BY T2.region_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各区域订单数量",
+        "sql": "SELECT dim_region.region_name, COUNT(fact_sales.sale_id) AS 订单数量\nFROM fact_sales\nJOIN dim_region ON fact_sales.region_id = dim_region.region_id\nGROUP BY dim_region.region_name",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各产品销量排行",
+        "sql": "SELECT T2.product_name, COALESCE(SUM(T1.quantity), 0) AS 销量\nFROM dim_product AS T2\nLEFT JOIN fact_sales AS T1 ON T2.product_id = T1.product_id\nGROUP BY T2.product_id, T2.product_name\nORDER BY 销量 DESC;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各品类销售额排行",
+        "sql": "SELECT T2.category AS 品类, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.category\nORDER BY 销售额 DESC;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按区域汇总销售金额",
+        "sql": "SELECT dim_region.region_name AS 区域, SUM(fact_sales.amount) AS 销售金额\nFROM fact_sales\nJOIN dim_region ON fact_sales.region_id = dim_region.region_id\nGROUP BY dim_region.region_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按产品汇总销量",
+        "sql": "SELECT T2.product_name, SUM(T1.quantity) AS 销量 FROM fact_sales AS T1 JOIN dim_product AS T2 ON T1.product_id = T2.product_id GROUP BY T2.product_id, T2.product_name",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "按品类统计销售笔数",
+        "sql": "SELECT dim_product.category AS 品类, COUNT(fact_sales.sale_id) AS 销售笔数 FROM fact_sales JOIN dim_product ON fact_sales.product_id = dim_product.product_id GROUP BY dim_product.category",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按区域计算平均销售额",
+        "sql": "SELECT T2.region_name, AVG(T1.amount) AS 平均销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nGROUP BY T2.region_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按产品统计订单数量",
+        "sql": "SELECT T2.product_name, COUNT(T1.sale_id) AS 订单数量\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.product_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按退款原因汇总退款金额",
+        "sql": "SELECT reason AS 退款原因, SUM(refund_amount) AS 退款金额 FROM fact_refund GROUP BY reason",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按退款原因统计退款笔数",
+        "sql": "SELECT reason, COUNT(refund_id) AS 退款笔数 FROM fact_refund GROUP BY reason;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按区域汇总销售数量",
+        "sql": "SELECT T2.region_name, SUM(T1.quantity) AS 销售数量\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nGROUP BY T2.region_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按品类汇总销售金额",
+        "sql": "SELECT T2.category AS 品类, SUM(T1.amount) AS 销售金额 FROM fact_sales AS T1 JOIN dim_product AS T2 ON T1.product_id = T2.product_id GROUP BY T2.category",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按区域和品类分组统计订单数",
+        "sql": "SELECT T2.region_name, T3.category, COUNT(T1.sale_id) AS 订单数\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nGROUP BY T2.region_name, T3.category;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "查询最近30天销售额",
+        "sql": "SELECT SUM(amount) AS 销售额 FROM fact_sales WHERE sale_date >= DATE('now', '-30 days') AND sale_date <= DATE('now');",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "统计今年销售订单数",
+        "sql": "SELECT COUNT(sale_id) AS 订单数\nFROM fact_sales\nWHERE sale_date >= date('now', 'start of year')\n  AND sale_date < date('now', 'start of year', '+1 year');",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "统计上个月销售额",
+        "sql": "SELECT SUM(amount) AS 销售额\nFROM fact_sales\nWHERE sale_date >= date('now', 'start of month', '-1 month')\n  AND sale_date < date('now', 'start of month');",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "查询本月各区域销售额",
+        "sql": "SELECT T2.region_name AS 区域, SUM(T1.amount) AS 销售额 FROM fact_sales AS T1 JOIN dim_region AS T2 ON T1.region_id = T2.region_id WHERE T1.sale_date >= date('now', 'start of month') AND T1.sale_date < date('now', 'start of month', '+1 month') GROUP BY T2.region_name",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "统计去年退款金额",
+        "sql": "SELECT SUM(refund_amount) AS 退款金额 FROM fact_refund WHERE strftime('%Y', refund_date) = strftime('%Y', 'now', '-1 year')",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      }
+    ]
+  },
+  "self_healing": {
+    "count": 50,
+    "syntax_pass_rate": 1.0,
+    "execution_success_rate": 1.0,
+    "result_correct_rate": 0.58,
+    "cases": [
+      {
+        "question": "查询销售订单编号、日期和金额",
+        "sql": "SELECT sale_id, sale_date, amount FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售数量最多的订单数量",
+        "sql": "SELECT MAX(quantity) AS 销售数量 FROM fact_sales",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售金额最高的订单金额",
+        "sql": "SELECT MAX(amount) AS 销售金额 FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款金额最高的一笔",
+        "sql": "SELECT * FROM fact_refund ORDER BY refund_amount DESC LIMIT 1;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询所有销售日期",
+        "sql": "SELECT DISTINCT sale_date AS 销售日期 FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款原因和退款金额",
+        "sql": "SELECT reason AS 退款原因, refund_amount AS 退款金额 FROM fact_refund;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售订单数量字段",
+        "sql": "SELECT COUNT(sale_id) AS 销售订单数量 FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款记录编号和原因",
+        "sql": "SELECT refund_id, reason FROM fact_refund",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售金额字段",
+        "sql": "SELECT amount FROM fact_sales",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售数量字段",
+        "sql": "SELECT quantity AS 销售数量 FROM fact_sales",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款日期",
+        "sql": "SELECT refund_date AS \"退款日期\" FROM fact_refund;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款原因",
+        "sql": "SELECT reason FROM fact_refund;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售日期和金额",
+        "sql": "SELECT sale_date, amount FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款订单编号",
+        "sql": "SELECT DISTINCT order_id FROM fact_refund",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售订单编号",
+        "sql": "SELECT sale_id FROM fact_sales",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款金额字段",
+        "sql": "SELECT refund_amount AS 退款金额 FROM fact_refund;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售事实记录",
+        "sql": "SELECT * FROM fact_sales;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款事实记录",
+        "sql": "SELECT * FROM fact_refund;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询销售日期在库中的记录",
+        "sql": "SELECT sale_date FROM fact_sales WHERE sale_date IS NOT NULL;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "查询退款日期在库中的记录",
+        "sql": "SELECT refund_date FROM fact_refund",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "华南各产品销售额",
+        "sql": "SELECT T3.product_name, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '华南'\nGROUP BY T3.product_name",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各区域各品类销售额",
+        "sql": "SELECT T2.region_name, T3.category, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nGROUP BY T2.region_name, T3.category",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各品类订单数",
+        "sql": "SELECT T2.category AS 品类, COUNT(DISTINCT T1.sale_id) AS 订单数\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.category;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "华东各产品销量",
+        "sql": "SELECT T3.product_name, SUM(T1.quantity) AS 销量\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '华东'\nGROUP BY T3.product_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各区域手机销售额",
+        "sql": "SELECT T2.region_name, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T3.category = '手机'\nGROUP BY T2.region_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各产品平均销售金额",
+        "sql": "SELECT T2.product_name, AVG(T1.amount) AS 平均销售金额\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.product_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "华北家电销量",
+        "sql": "SELECT SUM(fact_sales.quantity) AS 销量 FROM fact_sales JOIN dim_region ON fact_sales.region_id = dim_region.region_id JOIN dim_product ON fact_sales.product_id = dim_product.product_id WHERE dim_region.region_name = '华北' AND dim_product.category = '家电';",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各区域电脑订单数",
+        "sql": "SELECT T2.region_name AS 区域, COUNT(T1.sale_id) AS 订单数\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T3.category = '电脑'\nGROUP BY T2.region_name",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "西南区各品类销售额",
+        "sql": "SELECT T3.category AS 品类, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '西南'\nGROUP BY T3.category;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "华中区产品销售额前5",
+        "sql": "SELECT T3.product_name, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nJOIN dim_product AS T3 ON T1.product_id = T3.product_id\nWHERE T2.region_name = '华中'\nGROUP BY T3.product_id, T3.product_name\nORDER BY 销售额 DESC\nLIMIT 5;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各区域各产品销售数量",
+        "sql": "SELECT dim_region.region_name, dim_product.product_name, SUM(fact_sales.quantity) AS 销售数量\nFROM fact_sales\nJOIN dim_region ON fact_sales.region_id = dim_region.region_id\nJOIN dim_product ON fact_sales.product_id = dim_product.product_id\nGROUP BY dim_region.region_name, dim_product.product_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各区域销售额汇总",
+        "sql": "SELECT T2.region_name, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nGROUP BY T2.region_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各区域订单数量",
+        "sql": "SELECT dim_region.region_name, COUNT(fact_sales.sale_id) AS 订单数量 FROM fact_sales JOIN dim_region ON fact_sales.region_id = dim_region.region_id GROUP BY dim_region.region_name",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各产品销量排行",
+        "sql": "SELECT dim_product.product_name, SUM(fact_sales.quantity) AS 销量\nFROM fact_sales\nJOIN dim_product ON fact_sales.product_id = dim_product.product_id\nGROUP BY dim_product.product_name\nORDER BY 销量 DESC;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "各品类销售额排行",
+        "sql": "SELECT T2.category AS 品类, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.category\nORDER BY 销售额 DESC;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按区域汇总销售金额",
+        "sql": "SELECT T2.region_name AS 区域, SUM(T1.amount) AS 销售金额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nGROUP BY T2.region_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按产品汇总销量",
+        "sql": "SELECT T2.product_name, SUM(T1.quantity) AS 销量\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.product_id, T2.product_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": false,
+        "error": ""
+      },
+      {
+        "question": "按品类统计销售笔数",
+        "sql": "SELECT T2.category AS 品类, COUNT(T1.sale_id) AS 销售笔数 FROM fact_sales AS T1 JOIN dim_product AS T2 ON T1.product_id = T2.product_id GROUP BY T2.category",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按区域计算平均销售额",
+        "sql": "SELECT T2.region_name, AVG(T1.amount) AS 平均销售额 FROM fact_sales AS T1 JOIN dim_region AS T2 ON T1.region_id = T2.region_id GROUP BY T2.region_name",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按产品统计订单数量",
+        "sql": "SELECT T2.product_name, COUNT(T1.sale_id) AS 订单数量\nFROM fact_sales AS T1\nJOIN dim_product AS T2 ON T1.product_id = T2.product_id\nGROUP BY T2.product_name",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按退款原因汇总退款金额",
+        "sql": "SELECT reason AS 退款原因, SUM(refund_amount) AS 退款金额\nFROM fact_refund\nGROUP BY reason;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按退款原因统计退款笔数",
+        "sql": "SELECT reason AS 退款原因, COUNT(refund_id) AS 退款笔数 FROM fact_refund GROUP BY reason;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按区域汇总销售数量",
+        "sql": "SELECT dim_region.region_name, SUM(fact_sales.quantity) AS 销售数量\nFROM fact_sales\nJOIN dim_region ON fact_sales.region_id = dim_region.region_id\nGROUP BY dim_region.region_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按品类汇总销售金额",
+        "sql": "SELECT T2.category AS 品类, SUM(T1.amount) AS 销售金额 FROM fact_sales AS T1 JOIN dim_product AS T2 ON T1.product_id = T2.product_id GROUP BY T2.category;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "按区域和品类分组统计订单数",
+        "sql": "SELECT dim_region.region_name, dim_product.category, COUNT(fact_sales.sale_id) AS 订单数\nFROM fact_sales\nJOIN dim_region ON fact_sales.region_id = dim_region.region_id\nJOIN dim_product ON fact_sales.product_id = dim_product.product_id\nGROUP BY dim_region.region_name, dim_product.category;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "查询最近30天销售额",
+        "sql": "SELECT SUM(amount) AS 销售额\nFROM fact_sales\nWHERE sale_date >= DATE('now', '-30 days')\n  AND sale_date <= DATE('now');",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "统计今年销售订单数",
+        "sql": "SELECT COUNT(sale_id) AS 订单数 FROM fact_sales WHERE strftime('%Y', sale_date) = strftime('%Y', 'now')",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "统计上个月销售额",
+        "sql": "SELECT SUM(amount) AS 销售额 FROM fact_sales WHERE sale_date >= date('now', 'start of month', '-1 month') AND sale_date < date('now', 'start of month');",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "查询本月各区域销售额",
+        "sql": "SELECT T2.region_name AS 区域, SUM(T1.amount) AS 销售额\nFROM fact_sales AS T1\nJOIN dim_region AS T2 ON T1.region_id = T2.region_id\nWHERE T1.sale_date >= date('now', 'start of month')\n  AND T1.sale_date < date('now', 'start of month', '+1 month')\nGROUP BY T2.region_name;",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      },
+      {
+        "question": "统计去年退款金额",
+        "sql": "SELECT SUM(refund_amount) AS 退款金额 FROM fact_refund WHERE refund_date >= DATE('now', 'start of year', '-1 year') AND refund_date < DATE('now', 'start of year');",
+        "syntax": true,
+        "execution_success": true,
+        "correct": true,
+        "error": ""
+      }
+    ]
+  },
+  "token_comparison": {
+    "method": "tiktoken cl100k_base on injected schema text; excludes fixed prompt and question",
+    "sample_count": 20,
+    "full_schema_average": 391.0,
+    "top5_average": 323.4,
+    "reduction_percent": 17.289002557544762,
+    "samples": [
+      {
+        "question": "查询销售订单编号、日期、销量和金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询销售订单编号、日期、销量和金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询销售订单编号、日期、销量和金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询退款金额最高的一笔",
+        "full_schema_tokens": 391,
+        "top5_tokens": 339
+      },
+      {
+        "question": "查询销售订单编号、日期、销量和金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询退款原因和退款金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 339
+      },
+      {
+        "question": "查询销售订单编号、日期、销量和金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询退款记录编号和原因",
+        "full_schema_tokens": 391,
+        "top5_tokens": 339
+      },
+      {
+        "question": "查询销售订单编号、日期、销量和金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询销售订单编号、日期、销量和金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询退款日期",
+        "full_schema_tokens": 391,
+        "top5_tokens": 339
+      },
+      {
+        "question": "查询退款原因",
+        "full_schema_tokens": 391,
+        "top5_tokens": 339
+      },
+      {
+        "question": "查询销售订单编号、日期、销量和金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询销售订单编号、日期、销量和金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询销售订单编号、日期、销量和金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询退款金额字段",
+        "full_schema_tokens": 391,
+        "top5_tokens": 339
+      },
+      {
+        "question": "查询销售订单编号、日期、销量和金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询退款事实记录",
+        "full_schema_tokens": 391,
+        "top5_tokens": 339
+      },
+      {
+        "question": "查询销售订单编号、日期、销量和金额",
+        "full_schema_tokens": 391,
+        "top5_tokens": 313
+      },
+      {
+        "question": "查询退款日期在库中的记录",
+        "full_schema_tokens": 391,
+        "top5_tokens": 339
+      }
+    ]
+  }
+}

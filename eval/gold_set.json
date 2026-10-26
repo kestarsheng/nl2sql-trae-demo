@@ -1,0 +1,50 @@
+{"question": "查询所有区域的区域编号和区域名称", "sql": "SELECT region_id, region_name FROM dim_region ORDER BY region_id", "category": "single_table"}
+{"question": "查询所有产品的产品编号、产品名称和品类", "sql": "SELECT product_id, product_name, category FROM dim_product ORDER BY product_id", "category": "single_table"}
+{"question": "查询所有门店的门店编号、门店名称和所在城市", "sql": "SELECT store_id, store_name, city FROM dim_store ORDER BY store_id", "category": "single_table"}
+{"question": "查询所有会员客户的姓名和会员等级", "sql": "SELECT customer_name, level FROM dim_customer", "category": "single_table"}
+{"question": "统计销售记录总共有多少条", "sql": "SELECT COUNT(*) FROM fact_sales", "category": "single_table"}
+{"question": "统计退款记录总共有多少条", "sql": "SELECT COUNT(*) FROM fact_refund", "category": "single_table"}
+{"question": "单笔销售金额最高的订单编号和金额是多少", "sql": "SELECT sale_id, amount FROM fact_sales ORDER BY amount DESC LIMIT 1", "category": "single_table"}
+{"question": "查询单笔销量大于等于 30 件的销售记录的订单编号、日期和销量", "sql": "SELECT sale_id, sale_date, quantity FROM fact_sales WHERE quantity >= 30 ORDER BY sale_id", "category": "single_table"}
+{"question": "统计销售金额低于 1000 元的销售记录有多少条", "sql": "SELECT COUNT(*) FROM fact_sales WHERE amount < 1000", "category": "single_table"}
+{"question": "查询最高的单笔退款金额", "sql": "SELECT MAX(refund_amount) FROM fact_refund", "category": "single_table"}
+{"question": "查询所有退款单的退款单号、退款原因和退款金额", "sql": "SELECT refund_id, reason, refund_amount FROM fact_refund ORDER BY refund_id", "category": "single_table"}
+{"question": "查询退款原因中包含质量的退款单号、退款原因和退款金额", "sql": "SELECT refund_id, reason, refund_amount FROM fact_refund WHERE reason LIKE '%质量%' ORDER BY refund_id", "category": "single_table"}
+{"question": "有哪些不同的会员等级", "sql": "SELECT DISTINCT level FROM dim_customer ORDER BY level", "category": "single_table"}
+{"question": "有哪些不同的产品品类", "sql": "SELECT DISTINCT category FROM dim_product ORDER BY category", "category": "single_table"}
+{"question": "门店覆盖了哪些不同的城市", "sql": "SELECT DISTINCT city FROM dim_store ORDER BY city", "category": "single_table"}
+{"question": "华南区的区域编号是多少", "sql": "SELECT region_id FROM dim_region WHERE region_name = '华南'", "category": "single_table"}
+{"question": "格力空调的产品编号是多少", "sql": "SELECT product_id FROM dim_product WHERE product_name = '格力空调'", "category": "single_table"}
+{"question": "销售表中最小的单笔销量是多少", "sql": "SELECT MIN(quantity) FROM fact_sales", "category": "single_table"}
+{"question": "统计销售记录中出现过多少个不同的区域编号", "sql": "SELECT COUNT(DISTINCT region_id) FROM fact_sales", "category": "single_table"}
+{"question": "退款原因为七天无理由的退款单有多少条", "sql": "SELECT COUNT(*) FROM fact_refund WHERE reason = '七天无理由'", "category": "single_table"}
+{"question": "华南地区每个产品的销售总额", "sql": "SELECT p.product_name, SUM(s.amount) AS total FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id JOIN dim_product p ON s.product_id = p.product_id WHERE r.region_name = '华南' GROUP BY p.product_name ORDER BY p.product_name", "category": "multi_table_join"}
+{"question": "各区域各品类的销售总额", "sql": "SELECT r.region_name, p.category, SUM(s.amount) AS total FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id JOIN dim_product p ON s.product_id = p.product_id GROUP BY r.region_name, p.category ORDER BY r.region_name, p.category", "category": "multi_table_join"}
+{"question": "每个品类有多少笔销售订单", "sql": "SELECT p.category, COUNT(*) AS cnt FROM fact_sales s JOIN dim_product p ON s.product_id = p.product_id GROUP BY p.category ORDER BY p.category", "category": "multi_table_join"}
+{"question": "华东地区每个产品的总销量", "sql": "SELECT p.product_name, SUM(s.quantity) AS total FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id JOIN dim_product p ON s.product_id = p.product_id WHERE r.region_name = '华东' GROUP BY p.product_name ORDER BY p.product_name", "category": "multi_table_join"}
+{"question": "手机品类在各个区域的销售总额", "sql": "SELECT r.region_name, SUM(s.amount) AS total FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id JOIN dim_product p ON s.product_id = p.product_id WHERE p.category = '手机' GROUP BY r.region_name ORDER BY r.region_name", "category": "multi_table_join"}
+{"question": "华北地区家电品类的总销量是多少", "sql": "SELECT SUM(s.quantity) AS total FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id JOIN dim_product p ON s.product_id = p.product_id WHERE r.region_name = '华北' AND p.category = '家电'", "category": "multi_table_join"}
+{"question": "华中地区销售额最高的五个产品及其销售额", "sql": "SELECT p.product_name, SUM(s.amount) AS total FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id JOIN dim_product p ON s.product_id = p.product_id WHERE r.region_name = '华中' GROUP BY p.product_name ORDER BY total DESC LIMIT 5", "category": "multi_table_join"}
+{"question": "电脑品类在各区域的订单数量", "sql": "SELECT r.region_name, COUNT(*) AS cnt FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id JOIN dim_product p ON s.product_id = p.product_id WHERE p.category = '电脑' GROUP BY r.region_name ORDER BY r.region_name", "category": "multi_table_join"}
+{"question": "西南地区每个品类的销售总额", "sql": "SELECT p.category, SUM(s.amount) AS total FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id JOIN dim_product p ON s.product_id = p.product_id WHERE r.region_name = '西南' GROUP BY p.category ORDER BY p.category", "category": "multi_table_join"}
+{"question": "每个产品的平均单笔销售金额", "sql": "SELECT p.product_name, AVG(s.amount) AS avg_amount FROM fact_sales s JOIN dim_product p ON s.product_id = p.product_id GROUP BY p.product_name ORDER BY p.product_name", "category": "multi_table_join"}
+{"question": "家居品类每个产品的销售总额", "sql": "SELECT p.product_name, SUM(s.amount) AS total FROM fact_sales s JOIN dim_product p ON s.product_id = p.product_id WHERE p.category = '家居' GROUP BY p.product_name ORDER BY p.product_name", "category": "multi_table_join"}
+{"question": "每个区域卖过多少种不同的产品", "sql": "SELECT r.region_name, COUNT(DISTINCT s.product_id) AS cnt FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id GROUP BY r.region_name ORDER BY r.region_name", "category": "multi_table_join"}
+{"question": "每个区域的总销售数量", "sql": "SELECT r.region_name, SUM(s.quantity) AS total FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id GROUP BY r.region_name ORDER BY r.region_name", "category": "multi_table_join"}
+{"question": "各区域手机的总销量", "sql": "SELECT r.region_name, SUM(s.quantity) AS total FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id JOIN dim_product p ON s.product_id = p.product_id WHERE p.category = '手机' GROUP BY r.region_name ORDER BY r.region_name", "category": "multi_table_join"}
+{"question": "小米 14 在华南地区的销售总额", "sql": "SELECT SUM(s.amount) AS total FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id JOIN dim_product p ON s.product_id = p.product_id WHERE p.product_name = '小米 14' AND r.region_name = '华南'", "category": "multi_table_join"}
+{"question": "按区域汇总销售总金额", "sql": "SELECT r.region_name, SUM(s.amount) AS total FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id GROUP BY r.region_name ORDER BY r.region_name", "category": "aggregation_grouping"}
+{"question": "按产品汇总销售总数量", "sql": "SELECT p.product_name, SUM(s.quantity) AS total FROM fact_sales s JOIN dim_product p ON s.product_id = p.product_id GROUP BY p.product_name ORDER BY p.product_name", "category": "aggregation_grouping"}
+{"question": "按退款原因汇总退款总金额", "sql": "SELECT reason, SUM(refund_amount) AS total FROM fact_refund GROUP BY reason ORDER BY reason", "category": "aggregation_grouping"}
+{"question": "每个会员等级各有多少位客户", "sql": "SELECT level, COUNT(*) AS cnt FROM dim_customer GROUP BY level ORDER BY level", "category": "aggregation_grouping"}
+{"question": "按区域计算平均单笔销售金额", "sql": "SELECT r.region_name, AVG(s.amount) AS avg_amount FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id GROUP BY r.region_name ORDER BY r.region_name", "category": "aggregation_grouping"}
+{"question": "按品类计算平均单笔销量", "sql": "SELECT p.category, AVG(s.quantity) AS avg_qty FROM fact_sales s JOIN dim_product p ON s.product_id = p.product_id GROUP BY p.category ORDER BY p.category", "category": "aggregation_grouping"}
+{"question": "按产品统计最高单笔销售金额", "sql": "SELECT p.product_name, MAX(s.amount) AS max_amount FROM fact_sales s JOIN dim_product p ON s.product_id = p.product_id GROUP BY p.product_name ORDER BY p.product_name", "category": "aggregation_grouping"}
+{"question": "按区域统计最低单笔销售金额", "sql": "SELECT r.region_name, MIN(s.amount) AS min_amount FROM fact_sales s JOIN dim_region r ON s.region_id = r.region_id GROUP BY r.region_name ORDER BY r.region_name", "category": "aggregation_grouping"}
+{"question": "每个城市各有几家门店", "sql": "SELECT city, COUNT(*) AS cnt FROM dim_store GROUP BY city ORDER BY city", "category": "aggregation_grouping"}
+{"question": "按品类汇总销售总金额", "sql": "SELECT p.category, SUM(s.amount) AS total FROM fact_sales s JOIN dim_product p ON s.product_id = p.product_id GROUP BY p.category ORDER BY p.category", "category": "aggregation_grouping"}
+{"question": "最近 30 天的销售总金额", "sql": "SELECT SUM(amount) AS total FROM fact_sales WHERE sale_date >= date('now', '-30 day')", "category": "time_condition"}
+{"question": "今年的销售订单总数", "sql": "SELECT COUNT(*) AS cnt FROM fact_sales WHERE strftime('%Y', sale_date) = strftime('%Y', 'now')", "category": "time_condition"}
+{"question": "上个月的销售总金额", "sql": "SELECT SUM(amount) AS total FROM fact_sales WHERE sale_date >= date('now', 'start of month', '-1 month') AND sale_date < date('now', 'start of month')", "category": "time_condition"}
+{"question": "上个月的退款总金额", "sql": "SELECT SUM(refund_amount) AS total FROM fact_refund WHERE refund_date >= date('now', 'start of month', '-1 month') AND refund_date < date('now', 'start of month')", "category": "time_condition"}
+{"question": "2026 年 9 月的销售总金额", "sql": "SELECT SUM(amount) AS total FROM fact_sales WHERE sale_date >= '2026-09-01' AND sale_date < '2026-10-01'", "category": "time_condition"}
