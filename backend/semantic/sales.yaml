@@ -1,0 +1,59 @@
+# ============================================================
+# Semantic layer for the NL2SQL demo.
+# Each table carries a Chinese business description + field
+# glossary used to (1) rank relevance against the question and
+# (2) inject only Top-N tables into the SQL generation prompt.
+# ============================================================
+
+schema:
+  fact_sales:
+    description: "销售事实表，记录每一笔销售订单明细"
+    keywords: [销售, 订单, 成交, 卖, 卖了多少, 业绩]
+    fields:
+      sale_id:   { type: INTEGER, desc: "订单编号" }
+      sale_date: { type: DATE,   desc: "销售日期，格式YYYY-MM-DD" }
+      region_id: { type: INTEGER, desc: "区域ID，关联dim_region" }
+      product_id: { type: INTEGER, desc: "产品ID，关联dim_product" }
+      quantity:  { type: INTEGER, desc: "销售数量，单位件" }
+      amount:    { type: FLOAT,  desc: "销售金额，单位元" }
+
+  dim_region:
+    description: "区域维度表，包含华南华东等销售大区"
+    keywords: [区域, 大区, 华南, 华东, 华北, 西南, 华中, 地区]
+    fields:
+      region_id:   { type: INTEGER, desc: "区域ID" }
+      region_name: { type: TEXT,    desc: "区域名称" }
+
+  dim_product:
+    description: "产品维度表，包含产品名称与品类"
+    keywords: [产品, 商品, 品类, 手机, 电脑, 家电, 家居]
+    fields:
+      product_id:   { type: INTEGER, desc: "产品ID" }
+      product_name: { type: TEXT,    desc: "产品名称" }
+      category:     { type: TEXT,    desc: "产品品类" }
+
+  dim_store:
+    description: "门店维度表，线下实体门店信息"
+    keywords: [门店, 店铺, 线下, 分店]
+    fields:
+      store_id:   { type: INTEGER, desc: "门店ID" }
+      store_name: { type: TEXT,    desc: "门店名称" }
+      city:       { type: TEXT,    desc: "所在城市" }
+
+  dim_customer:
+    description: "客户维度表，注册会员客户信息"
+    keywords: [客户, 会员, 用户, 顾客, 等级]
+    fields:
+      customer_id:   { type: INTEGER, desc: "客户ID" }
+      customer_name: { type: TEXT,    desc: "客户姓名" }
+      level:         { type: TEXT,    desc: "会员等级" }
+
+  fact_refund:
+    description: "退款事实表，记录每一笔退款申请"
+    keywords: [退款, 退货, 退单, 售后]
+    fields:
+      refund_id:   { type: INTEGER, desc: "退款单号" }
+      refund_date: { type: DATE,    desc: "退款日期" }
+      order_id:    { type: INTEGER, desc: "原订单ID" }
+      refund_amount: { type: FLOAT, desc: "退款金额" }
+      reason:      { type: TEXT,    desc: "退款原因" }
